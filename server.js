@@ -7,7 +7,9 @@ const HOST_NAME = process.env.HOST_NAME;
 const SHOPIFY_URL = "https://" + SHOPIFY_API_KEY + ":" + PASSWORD + "@" + HOST_NAME + ".myshopify.com/admin/products.json?fields=id,title";
 
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
-const AIRTABLE_URL = "https://api.airtable.com/v0/appJh00iacGjlWpzh/Products?api_key=" + AIRTABLE_API_KEY;
+const APP_NAME = process.env.APP_NAME;
+const TABLE_NAME = process.env.TABLE_NAME;
+const AIRTABLE_URL = "https://api.airtable.com/v0/"+ APP_NAME + "/" + TABLE_NAME + "?api_key=" + AIRTABLE_API_KEY;
 
 axios.all([getShopify(), getAirtable()])
     .then(axios.spread(function(shopify, airtable) {
@@ -57,7 +59,7 @@ function getAirtable() {
 
 // Updates a single Airtable record
 function patchAirtable(airtable_id, product_title) {
-    axios.patch("https://api.airtable.com/v0/appJh00iacGjlWpzh/Products/" + airtable_id + "?api_key=" + AIRTABLE_API_KEY, {
+    axios.patch("https://api.airtable.com/v0/" + APP_NAME + "/" + TABLE_NAME + "/" + airtable_id + "?api_key=" + AIRTABLE_API_KEY, {
         "fields": {
             "product_title": product_title
         }
